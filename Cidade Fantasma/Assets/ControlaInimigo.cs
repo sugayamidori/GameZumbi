@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR;
 
 public class ControlaInimigo : MonoBehaviour
 {
@@ -9,7 +10,9 @@ public class ControlaInimigo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Jogador = GameObject.FindWithTag("Jogador");
+        int geraTipoZumbi = Random.Range(1, 28);
+        transform.GetChild(geraTipoZumbi).gameObject.SetActive(true);
     }
 
     // Update is called once per frame
@@ -39,8 +42,6 @@ public class ControlaInimigo : MonoBehaviour
 
     void AtacaJogador ()
     {
-        Time.timeScale = 0;
-        Jogador.GetComponent<ControlaJogador>().TextoGameOver.SetActive(true);
-        Jogador.GetComponent<ControlaJogador>().Vivo = false;
+        Jogador.GetComponent<ControlaJogador>().TomarDano();
     }
 }

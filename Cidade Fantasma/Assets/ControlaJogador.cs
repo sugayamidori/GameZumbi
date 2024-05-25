@@ -9,7 +9,9 @@ public class ControlaJogador : MonoBehaviour
     Vector3 direcao;
     public LayerMask MascaraChao;
     public GameObject TextoGameOver;
-    public bool Vivo = true;
+    public GameObject PainelDeWin;
+    public int Vida = 5;
+    public ControlaInterface scriptControlaInterface;
 
     // Start is called before the first frame update
     void Start()
@@ -20,8 +22,8 @@ public class ControlaJogador : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float eixoX = Input.GetAxis("Horizontal");
-        float eixoZ = Input.GetAxis("Vertical");
+        float eixoX = Input.GetAxisRaw("Horizontal");
+        float eixoZ = Input.GetAxisRaw("Vertical");
 
         direcao = new Vector3 (eixoX, 0, eixoZ);
 
@@ -33,19 +35,14 @@ public class ControlaJogador : MonoBehaviour
             GetComponent<Animator>().SetBool("Movendo", false);
         }
 
-        if (Vivo == false)
-        {
-            if (Input.GetButtonDown("Fire1"))
-            {
-                SceneManager.LoadScene("game");
-            }
-        }
+        
 
     }
 
     private void FixedUpdate()
     {
-        GetComponent<Rigidbody>().MovePosition(GetComponent<Rigidbody>().position + (direcao * Velocidade * Time.deltaTime));
+        GetComponent<Rigidbody>().velocity = direcao.normalized * Velocidade;
+        //GetComponent<Rigidbody>().MovePosition(GetComponent<Rigidbody>().position + (direcao * Velocidade * Time.deltaTime));
 
         Ray raio = Camera.main.ScreenPointToRay(Input.mousePosition);
         Debug.DrawRay(raio.origin, raio.direction * 100, Color.red);
@@ -60,4 +57,18 @@ public class ControlaJogador : MonoBehaviour
             GetComponent<Rigidbody>().MoveRotation(novaRrotacao);
         }
     }
+
+    public void TomarDano()
+    {
+        Vida -= 1;
+        scriptControlaInterface.AtualizarSliderVidaJogador();
+        if (Vida == 0)
+        {
+            Time.timeScale = 0;
+            scriptControlaInterface.GameOver();
+        }
+
+        
+    }
+   
 }
