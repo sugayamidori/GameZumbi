@@ -8,3 +8,6 @@ Movimento do jogador: com setas ou A, D, W, S
 Mirar a pistola: com o mouse
 Atirar: clicando no botão esquerdo do mouse.
 
+Versão html: https://sugayamidorigmailcom.itch.io/game-cidade-zumbi
+Senha: zumbi
+
